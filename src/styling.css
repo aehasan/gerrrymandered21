@@ -2,6 +2,7 @@
 .MainMap {
     position:relative;
     top: 100px;
+    left: 50px;
     height: 500px;
     width:1500px;
 
