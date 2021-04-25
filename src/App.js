@@ -2,7 +2,12 @@ import logo from './logo.svg';
 import './App.css';
 import StartingMap from './Components/StartingMap';
 import React, { Component } from 'react';
-import * as d3 from 'd3'
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import "./styling.css"
+import 'leaflet/dist/leaflet.css'
+
+
+//import * as d3 from 'd3'
 
 function App() {
 
@@ -25,11 +30,27 @@ function App() {
   // }
   // )
   // console.log(demHouseResults)
+  <StartingMap dem={demHouseResults} rep={repHouseResults}/>
+
+//   <div className = "leaflet-container">
+//   <MapContainer center={[51.505, -0.09]} zoom={9} scrollWheelZoom={true}>
+// <TileLayer
+// attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+// url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
+// />
+// <Marker position={[51.505, -0.09]}>
+// <Popup>
+//   A pretty CSS3 popup. <br /> Easily customizable.
+// </Popup>
+// </Marker>
+// </MapContainer>
+// </div>
 
 
   return (
     <div className="App">
-      <StartingMap dem={demHouseResults} rep={repHouseResults}/>
+        <StartingMap className = "startingMap" dem={demHouseResults} rep={repHouseResults}/>
+
     </div>
   );
 }

@@ -1,5 +1,19 @@
 .App {
   text-align: center;
+  height: 500;
+  width: 1000px;
+}
+.leaflet-container {
+  width: 100wh; 
+  height: 100vh;
+}
+#map {
+  width: 960px;
+  height: 500px;
+}
+.startingMap {
+  width:500;
+  height: 500px;
 }
 
 .App-logo {
