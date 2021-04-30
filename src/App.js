@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import StartingMap from './Components/StartingMap';
+import ArcRight from './Components/ArcRight'
 import React, { Component } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import "./styling.css"
@@ -46,11 +47,11 @@ function App() {
 // </MapContainer>
 // </div>
 
+//        <StartingMap className = "startingMap" dem={demHouseResults} rep={repHouseResults}/>
 
   return (
     <div className="App">
-        <StartingMap className = "startingMap" dem={demHouseResults} rep={repHouseResults}/>
-
+        <ArcRight className = "voteShower"> </ArcRight>
     </div>
   );
 }
