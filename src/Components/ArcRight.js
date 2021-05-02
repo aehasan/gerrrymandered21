@@ -15,21 +15,32 @@ function ArcRight() {
     svg.attr("height", 500)
     var g = svg.append("g");
     var arc = d3.arc()
-        .innerRadius(150)
-        .outerRadius(300)
+        .innerRadius(60)
+        .outerRadius(100)
         .startAngle(function startAngle(d) {
-            return .31 * d
+            return d.startAngle 
         })
         .endAngle( function endAngle(d) {
-            return .31 * (d+1)
+            return d.endAngle  
         })
     var pie = d3.pie()
-    .startAngle(0)
-    .endAngle(360)
+    .padAngle(0)
+    .startAngle(function start() {
+        return 0;
+    })
+    .endAngle(function end() {
+        return 2  * Math.PI
+    })
     .sort(null)
     .value(function(d) { 
         //console.log(+d.votes)
-        return +d.votes; });
+        if (d.votes != null) {
+            return Number(d.votes); 
+
+        } else {
+            return 1000
+        }
+    });
     
     
     useEffect(function() {
@@ -43,13 +54,11 @@ function ArcRight() {
         d3.csv("https://ranchncarrots.github.io/gerrymandered21site/data/houseRaces.csv").then(function(data) {
 
         
-        var feature = g.selectAll(".arc")
-        .data(data)
-        .enter().append("g").attr("class", "Arc")
-        
-        feature.append("path").attr("d", arc(data)).attr("fill", function(d, i) {
+        var feature = g.selectAll("Arc")
+        .data(pie(data))
+        .enter().append("path").attr("d", arc).attr("class", "Arc").attr("fill", function(d, i) {
             //console.log(d.data.party)
-            if(String(d.party) == "DEM") {
+            if(String(d.data.party) == "DEM") {
                 return "#0000ff";
             } else {
                 return "#A52A2A";
@@ -59,6 +68,19 @@ function ArcRight() {
         
                      console.log(index)
                  })
+        console.log(pie(data));
+        // feature.append("path").attr("d", arc).attr("class", "Arc").attr("fill", function(d, i) {
+        //     //console.log(d.data.party)
+        //     if(String(d.data.party) == "DEM") {
+        //         return "#0000ff";
+        //     } else {
+        //         return "#A52A2A";
+        //     }
+        //     //return console.log(d)
+        // }).on("mouseover",function(data, index) {
+        
+        //              console.log(index)
+        //          })
         // data.forEach(function(d) {
         //     //console.log(d.votes)
         //     feature.attr("d", d.votes).on("mouseover",function(data, index) {
