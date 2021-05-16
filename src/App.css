@@ -16,6 +16,10 @@
   height: 500px;
 }
 
+.Arc {
+  stroke:none
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

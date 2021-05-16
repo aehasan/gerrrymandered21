@@ -1,6 +1,7 @@
 import React from 'react'
 import * as d3 from "d3"
 import {useEffect, useRef} from 'react';
+import "./Arc.css"
 
 
 function ArcRight() {
@@ -15,13 +16,14 @@ function ArcRight() {
     svg.attr("height", 500)
     var g = svg.append("g");
     var arc = d3.arc()
-        .innerRadius(60)
+        .innerRadius(80)
         .outerRadius(100)
+        .cornerRadius(0)
         .startAngle(function startAngle(d) {
-            return d.startAngle 
+            return d.startAngle
         })
         .endAngle( function endAngle(d) {
-            return d.endAngle  
+            return d.endAngle
         })
     var pie = d3.pie()
     .padAngle(0)
@@ -34,13 +36,13 @@ function ArcRight() {
     .sort(null)
     .value(function(d) { 
         //console.log(+d.votes)
-        if (d.votes != null) {
+        if (d.votes != 0) {
             return Number(d.votes); 
 
         } else {
-            return 1000
+            return 20000
         }
-    });
+    })
     
     
     useEffect(function() {
@@ -53,18 +55,20 @@ function ArcRight() {
         g.attr("height", 900)
         d3.csv("https://ranchncarrots.github.io/gerrymandered21site/data/houseRaces.csv").then(function(data) {
 
-        
+        var currentColor = null;
         var feature = g.selectAll("Arc")
         .data(pie(data))
         .enter().append("path").attr("d", arc).attr("class", "Arc").attr("fill", function(d, i) {
             //console.log(d.data.party)
             if(String(d.data.party) == "DEM") {
+                currentColor = "#0000ff";
                 return "#0000ff";
             } else {
+                currentColor = "#A52A2A";
                 return "#A52A2A";
             }
             //return console.log(d)
-        }).on("mouseover",function(data, index) {
+        }).attr("shape-rendering", "optimizeSpeed").on("mouseover",function(data, index) {
         
                      console.log(index)
                  })
@@ -98,7 +102,7 @@ function ArcRight() {
     
 
     return (
-        <div>
+        <div className = "voteShower">
             <svg ref = {svgRef}> </svg>
         </div>
     )

@@ -1,0 +1,13 @@
+/* .Arc {
+    stroke:none
+  } */
+
+  .voteShower {
+    position: absolute;
+    left: 1000px;
+    width: 500px;
+    height: 500px;
+  
+    top: 0px;
+  
+  }

@@ -51,7 +51,8 @@ function App() {
 
   return (
     <div className="App">
-        <ArcRight className = "voteShower"> </ArcRight>
+      <StartingMap className = "startingMap" dem={demHouseResults} rep={repHouseResults}/>
+        <ArcRight > </ArcRight>
     </div>
   );
 }
