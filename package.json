@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^12.7.3",
     "d3": "^6.7.0",
     "d3-geo": "^2.0.1",
+    "d3-selection": "^2.0.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.3",

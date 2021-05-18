@@ -58,7 +58,7 @@ function ArcRight() {
         var feature = g.selectAll("Arc")
         .data(pie(data))
         .enter().append("path").attr("d", arc).attr("class", function(d) {
-            return `${d.data.id}`;
+            return `a${d.data.id}`;
         }).attr("fill", function(d, i) {
             if(String(d.data.party) == "DEM") {
                 currentColor = "#0000ff";

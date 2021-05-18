@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {useEffect, useRef, useState} from 'react';
 import * as d3 from 'd3'
+import {select, selectAll} from "d3-selection";
 import * as d3Geo from "d3-geo"
 import * as topojson from "topojson";
 import ReactDOM from 'react-dom';
@@ -51,20 +52,26 @@ function D3Rendering() {
         var feature = g.selectAll("path")
         .data(collection.features)
         .enter().append("path");
-        forLatertwo = feature.attr("d", path)
+        forLatertwo = feature.attr("d", path).on("mouseover", function (data, index) {
+            var current = d3.select(this).attr("class")
+            //var z= d3.select("body")
+            //console.log(z);
+            console.log(String("." +  `${current}`));
+            d3.select("body").selectAll("." + `${current}`).style("stroke", "white");
+            (console.log(d3.select(this).attr("class")));
+        
+        })
             .attr("opacity", .5)
             .attr("style", "pointer-events: auto;")
             .attr('class', function(d) {
                 //console.log(d.properties.GEOID)
-                return `${d.properties.GEOID}`
+                return `a${d.properties.GEOID}`
             })
             .style("stroke", "black")
-            .attr("fill", "white").on("mouseover", function (data, index) {(console.log(d3.select(this).attr("class")))
-            
-            });
+            .attr("fill", "white");
 
         // code here
-
+            var j = d3.selectAll(".a1010")
         var one = path.bounds(collection),
         two = one[0],
         three = one[1];
@@ -133,6 +140,10 @@ function StartingMap(props) {
    
       
     //console.log(repHouseResults)
+    useEffect(() => {
+        console.log("wasssup")
+        d3.selectAll(".a1010")
+    })
     
 
     
