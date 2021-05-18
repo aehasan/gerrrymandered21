@@ -28,8 +28,8 @@ function D3Rendering() {
         this.stream.point(point.x, point.y);
     }
 
-    var svg = d3.select(map.getPanes().overlayPane).append("svg"),
-    g = svg.append("g").attr("class", "leaflet-zoom-hide");
+    var svg = d3.select(map.getPanes().overlayPane).append("svg").attr("style", "pointer-events: auto;"),
+    g = svg.append("g").attr("class", "leaflet-zoom-hide").attr("style", "pointer-events: auto;");
 
 
         var transform = d3.geoTransform({point: projectPoint}),
@@ -40,8 +40,7 @@ function D3Rendering() {
        var states = topojson.feature(data, data.objects.states).features
         var forLater = null;
         var forLatertwo = null;
-      //var testing =  g.selectAll("path").data(counties).enter().append("path")
-      //testing.attr("d", path).attr("style", "pointer-events: auto;").attr("opacity",.5).on("mouseover", (data, index) => (console.log(index)))
+    
       console.log("here")
       d3.json("https://raw.githubusercontent.com/ranchncarrots/gerrymandered21site/main/data/secondCongressional.json").then(function(collection) {
         console.log("here")
@@ -52,7 +51,17 @@ function D3Rendering() {
         var feature = g.selectAll("path")
         .data(collection.features)
         .enter().append("path");
-        forLatertwo = feature.attr("d", path).attr("opacity", .5).style("stroke", "black").attr("fill", "white");
+        forLatertwo = feature.attr("d", path)
+            .attr("opacity", .5)
+            .attr("style", "pointer-events: auto;")
+            .attr('class', function(d) {
+                //console.log(d.properties.GEOID)
+                return `${d.properties.GEOID}`
+            })
+            .style("stroke", "black")
+            .attr("fill", "white").on("mouseover", function (data, index) {(console.log(d3.select(this).attr("class")))
+            
+            });
 
         // code here
 
@@ -61,13 +70,12 @@ function D3Rendering() {
         three = one[1];
         
         forLater = collection
-    
+
         svg .attr("width", three[0] - two[0])
         .attr("height", three[1] - two[1])
         .style("left", two[0] + "px")
         .style("top", two[1] + "px");
         console.log("yo")
-        //testing.attr("d", path).attr("opacity",.5).on("mouseover", (data, index) => (console.log(index)))
 
         g.attr("transform", "translate(" + (-two[0]) + "," + (-two[1]) + ")");
       });
@@ -92,7 +100,6 @@ function D3Rendering() {
         .style("top", two[1] + "px");
         console.log("yo")
         forLatertwo.attr("d", path).attr("opacity", .5).style("stroke", "black").attr("fill", "white");
-        //testing.attr("d", path).attr("opacity",.5).on("mouseover", (data, index) => (console.log(index)))
 
         g.attr("transform", "translate(" + (-two[0]) + "," + (-two[1]) + ")");
 
@@ -131,30 +138,6 @@ function StartingMap(props) {
     
 
 
-    useEffect(() => {
-    //     const svg = d3.select(svgRef.current)
-       
-
-    
-    //     var transform = d3.geoTransform({point: projectPoint}),
-    //     path = d3.geoPath().projection(transform)
-    //     const projection = d3.geoAlbersUsa()
-    //     const pathGenerator = d3.geoPath().projection(projection);
-    //     //console.log(data.objects)
-    
-
-    //    var counties = topojson.feature(countyData, countyData.objects.cb_2018_us_cd116_500k).features
-    //    var states = topojson.feature(data, data.objects.states).features
-
-        
-    //     g.selectAll(".counties").data(counties).join("path").attr('class', 'counties').attr("d", path)
-    //     .on("mouseover", (data, index) => (console.log(index)))
-    //     //svg.selectAll(".states").data(states).join("path").attr('class', 'states').attr("d", feautre => pathGenerator(feautre)).attr("opacity", 0).on("mouseover", (data, index) => (console.log(index.properties.name)))
-    //     //console.log(demHouseResults)
-
-    //<svg ref = {svgRef} className = 'MainMap'></svg>
-
-    },[]);
 
     return (
 

@@ -35,7 +35,6 @@ function ArcRight() {
     })
     .sort(null)
     .value(function(d) { 
-        //console.log(+d.votes)
         if (d.votes != 0) {
             return Number(d.votes); 
 
@@ -58,8 +57,9 @@ function ArcRight() {
         var currentColor = null;
         var feature = g.selectAll("Arc")
         .data(pie(data))
-        .enter().append("path").attr("d", arc).attr("class", "Arc").attr("fill", function(d, i) {
-            //console.log(d.data.party)
+        .enter().append("path").attr("d", arc).attr("class", function(d) {
+            return `${d.data.id}`;
+        }).attr("fill", function(d, i) {
             if(String(d.data.party) == "DEM") {
                 currentColor = "#0000ff";
                 return "#0000ff";
@@ -67,33 +67,14 @@ function ArcRight() {
                 currentColor = "#A52A2A";
                 return "#A52A2A";
             }
-            //return console.log(d)
+   
         }).attr("shape-rendering", "optimizeSpeed").on("mouseover",function(data, index) {
+                    console.log(d3.select(this).attr("class"))
         
-                     console.log(index)
+                     //console.log(index)
                  })
         console.log(pie(data));
-        // feature.append("path").attr("d", arc).attr("class", "Arc").attr("fill", function(d, i) {
-        //     //console.log(d.data.party)
-        //     if(String(d.data.party) == "DEM") {
-        //         return "#0000ff";
-        //     } else {
-        //         return "#A52A2A";
-        //     }
-        //     //return console.log(d)
-        // }).on("mouseover",function(data, index) {
-        
-        //              console.log(index)
-        //          })
-        // data.forEach(function(d) {
-        //     //console.log(d.votes)
-        //     feature.attr("d", d.votes).on("mouseover",function(data, index) {
-        //         console.log(index)
-        //     })
 
-        // })
-
-        //feature.attr("d", path).attr("opacity", .5).style("stroke", "black").attr("fill", "white");
 
         })
 
