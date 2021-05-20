@@ -6,8 +6,8 @@ import {select, selectAll} from "d3-selection";
 import * as d3Geo from "d3-geo"
 import * as topojson from "topojson";
 import ReactDOM from 'react-dom';
-import countyData from '/Users/ahmed/Desktop/gerrymandered/src/data/congressional.json'
-import data from '/Users/ahmed/Desktop/gerrymandered/src/data/counties.json'
+import countyData from '/Users/ahmed/Desktop/Projects/gerrymandered/src/data/congressional.json'
+import data from '/Users/ahmed/Desktop/Projects/gerrymandered/src/data/counties.json'
 import { MapContainer, TileLayer, Marker, Popup, useMap} from 'react-leaflet'
 import {useLeafletContext} from '@react-leaflet/core';
 import 'leaflet/dist/leaflet.css'
@@ -17,10 +17,10 @@ import L from "leaflet"
 
 
 
-import  "/Users/ahmed/Desktop/gerrymandered/src/styling.css"
+import  "/Users/ahmed/Desktop/Projects/gerrymandered/src/styling.css"
 
 
-
+var stateCords = {};
 function D3Rendering() {
     const map = useMap()
 
@@ -28,6 +28,12 @@ function D3Rendering() {
         var point = map.latLngToLayerPoint(new L.LatLng(y, x));
         this.stream.point(point.x, point.y);
     }
+    d3.csv("https://ranchncarrots.github.io/gerrymandered21site/data/stateCords.csv").then(function(data) {
+        data.forEach(function(d) {
+            stateCords[d.STATEFIPS] = d.cords
+        })
+        console.log(stateCords)
+    })
 
     var svg = d3.select(map.getPanes().overlayPane).append("svg").attr("style", "pointer-events: auto;"),
     g = svg.append("g").attr("class", "leaflet-zoom-hide").attr("style", "pointer-events: auto;");
@@ -43,6 +49,7 @@ function D3Rendering() {
         var forLatertwo = null;
     
       console.log("here")
+      useEffect(() => {
       d3.json("https://raw.githubusercontent.com/ranchncarrots/gerrymandered21site/main/data/secondCongressional.json").then(function(collection) {
         console.log("here")
         // if (error) {
@@ -56,10 +63,30 @@ function D3Rendering() {
             var current = d3.select(this).attr("class")
             //var z= d3.select("body")
             //console.log(z);
+            console.log(index);
             console.log(String("." +  `${current}`));
             d3.select("body").selectAll("." + `${current}`).style("stroke", "white");
+            d3.select("body").selectAll("." + `${current}arc`).style("stroke", "black");
+
             (console.log(d3.select(this).attr("class")));
         
+        }). on("mouseout", function (data, index) {
+            var current = d3.select(this).attr("class")
+            //var z= d3.select("body")
+            //console.log(z);
+            console.log(String("." +  `${current}`));
+            d3.select("body").selectAll("." + `${current}`).style("stroke", "black");
+            d3.select("body").selectAll("." + `${current}arc`).style("stroke", "none");
+
+
+        }).on ("click", function(data, index) {
+
+            var cords = stateCords[index.properties.STATEFP]
+            var firstSplitSlash = cords.split("/");
+
+
+            console.log(index);
+            console.log(cords);
         })
             .attr("opacity", .5)
             .attr("style", "pointer-events: auto;")
@@ -86,6 +113,14 @@ function D3Rendering() {
 
         g.attr("transform", "translate(" + (-two[0]) + "," + (-two[1]) + ")");
       });
+    }, [])
+
+
+
+    //   map.on("click", function(e) {
+    //       map.panTo(new L.LatLng(e.latlng.lat,e.latlng.lng), 5);
+    //       console.log(e);
+    //   })
 
 
 
@@ -116,7 +151,7 @@ function D3Rendering() {
 
   
 
-    map.on("zoomend", reset);
+    //map.on("zoomend", reset);
 
     return null
 }
@@ -140,10 +175,7 @@ function StartingMap(props) {
    
       
     //console.log(repHouseResults)
-    useEffect(() => {
-        console.log("wasssup")
-        d3.selectAll(".a1010")
-    })
+
     
 
     
