@@ -28,3 +28,7 @@ with open(fileName, 'r') as file:
         #print(postSplit)
         x.vertices[row[1]] = postSplit
 print(x.vertices)
+class EndDistricts:
+    def __init__(self) -> None:
+        self.districtPartitions = {}
+

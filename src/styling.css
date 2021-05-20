@@ -20,4 +20,20 @@
     left:400px;
     height: 50px;
     width: 50px;
+}
+.leaflet-container {
+    position: relative;
+    top: 0px;
+    z-index: 0;
+}
+.sillyGoose {
+    position: absolute;
+    z-index: 3;
+    left: 200px !important;
+    top: opx !important;
+    height: 31px !important; 
+    width: 33px !important; 
+    cursor: pointer; 
+    border: none; 
+  
 }  

@@ -23,6 +23,7 @@ import  "/Users/ahmed/Desktop/Projects/gerrymandered/src/styling.css"
 var stateCords = {};
 function D3Rendering() {
     const map = useMap()
+    var [selectedCountry, setSelectedCountry] = useState(null);
 
     function projectPoint(x, y) {
         var point = map.latLngToLayerPoint(new L.LatLng(y, x));
@@ -55,6 +56,9 @@ function D3Rendering() {
         // if (error) {
         //     console.log("bruh")
         // }
+        if (selectedCountry != null) {
+            return
+        }
         console.log(collection)
         var feature = g.selectAll("path")
         .data(collection.features)
@@ -83,6 +87,11 @@ function D3Rendering() {
 
             var cords = stateCords[index.properties.STATEFP]
             var firstSplitSlash = cords.split("/");
+            console.log(firstSplitSlash);
+            setSelectedCountry(index.properties.STATEFP);
+            svg.selectAll("*").remove();
+            console.log(Number(firstSplitSlash[1].substring(0, firstSplitSlash[1].length - 2)));
+            map.flyTo([Number(firstSplitSlash[0].substring(1, firstSplitSlash[0].length)), Number(firstSplitSlash[1].substring(0, firstSplitSlash[1].length - 2))], 10);
 
 
             console.log(index);
@@ -113,7 +122,7 @@ function D3Rendering() {
 
         g.attr("transform", "translate(" + (-two[0]) + "," + (-two[1]) + ")");
       });
-    }, [])
+    }, [selectedCountry])
 
 
 
@@ -186,6 +195,8 @@ function StartingMap(props) {
 
         <div >
             <div className = "leaflet-container">
+            <button className = "sillyGoose" />
+
                 <MapContainer center={[37.8, -96.9]} zoom={4} scrollWheelZoom={false}>
                     <TileLayer
                         attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
