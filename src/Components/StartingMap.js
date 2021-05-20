@@ -11,7 +11,7 @@ import data from '/Users/ahmed/Desktop/Projects/gerrymandered/src/data/counties.
 import { MapContainer, TileLayer, Marker, Popup, useMap} from 'react-leaflet'
 import {useLeafletContext} from '@react-leaflet/core';
 import 'leaflet/dist/leaflet.css'
-
+import D3Rendering from '/Users/ahmed/Desktop/Projects/gerrymandered/src/Components/D3Rendering.js'
 
 import L from "leaflet"
 
@@ -20,150 +20,151 @@ import L from "leaflet"
 import  "/Users/ahmed/Desktop/Projects/gerrymandered/src/styling.css"
 
 
-var stateCords = {};
-function D3Rendering() {
-    const map = useMap()
-    var [selectedCountry, setSelectedCountry] = useState(null);
+// var stateCords = {};
+// function D3Rendering() {
+//     const map = useMap()
+//     var [selectedCountry, setSelectedCountry] = useState(null);
 
-    function projectPoint(x, y) {
-        var point = map.latLngToLayerPoint(new L.LatLng(y, x));
-        this.stream.point(point.x, point.y);
-    }
-    d3.csv("https://ranchncarrots.github.io/gerrymandered21site/data/stateCords.csv").then(function(data) {
-        data.forEach(function(d) {
-            stateCords[d.STATEFIPS] = d.cords
-        })
-        console.log(stateCords)
-    })
+//     function projectPoint(x, y) {
+//         var point = map.latLngToLayerPoint(new L.LatLng(y, x));
+//         this.stream.point(point.x, point.y);
+//     }
+//     d3.csv("https://ranchncarrots.github.io/gerrymandered21site/data/stateCords.csv").then(function(data) {
+//         data.forEach(function(d) {
+//             stateCords[d.STATEFIPS] = d.cords
+//         })
+//         console.log(stateCords)
+//     })
 
-    var svg = d3.select(map.getPanes().overlayPane).append("svg").attr("style", "pointer-events: auto;"),
-    g = svg.append("g").attr("class", "leaflet-zoom-hide").attr("style", "pointer-events: auto;");
+//     var svg = d3.select(map.getPanes().overlayPane).append("svg").attr("style", "pointer-events: auto;"),
+//     g = svg.append("g").attr("class", "leaflet-zoom-hide").attr("style", "pointer-events: auto;");
 
 
-        var transform = d3.geoTransform({point: projectPoint}),
-        path = d3.geoPath().projection(transform)
+//         var transform = d3.geoTransform({point: projectPoint}),
+//         path = d3.geoPath().projection(transform)
      
 
-        var counties = topojson.feature(countyData, countyData.objects.cb_2018_us_cd116_500k).features
-       var states = topojson.feature(data, data.objects.states).features
-        var forLater = null;
-        var forLatertwo = null;
+//         var counties = topojson.feature(countyData, countyData.objects.cb_2018_us_cd116_500k).features
+//        var states = topojson.feature(data, data.objects.states).features
+//         var forLater = null;
+//         var forLatertwo = null;
     
-      console.log("here")
-      useEffect(() => {
-      d3.json("https://raw.githubusercontent.com/ranchncarrots/gerrymandered21site/main/data/secondCongressional.json").then(function(collection) {
-        console.log("here")
-        // if (error) {
-        //     console.log("bruh")
-        // }
-        if (selectedCountry != null) {
-            return
-        }
-        console.log(collection)
-        var feature = g.selectAll("path")
-        .data(collection.features)
-        .enter().append("path");
-        forLatertwo = feature.attr("d", path).on("mouseover", function (data, index) {
-            var current = d3.select(this).attr("class")
-            //var z= d3.select("body")
-            //console.log(z);
-            console.log(index);
-            console.log(String("." +  `${current}`));
-            d3.select("body").selectAll("." + `${current}`).style("stroke", "white");
-            d3.select("body").selectAll("." + `${current}arc`).style("stroke", "black");
+//       console.log("here")
+//       useEffect(() => {
+//       d3.json("https://raw.githubusercontent.com/ranchncarrots/gerrymandered21site/main/data/secondCongressional.json").then(function(collection) {
+//         console.log("here")
+//         // if (error) {
+//         //     console.log("bruh")
+//         // }
+//         if (selectedCountry != null) {
+//             return
+//         }
+//         map.flyTo([37.8, -96.9], 4);
+//         console.log(collection)
+//         var feature = g.selectAll("path")
+//         .data(collection.features)
+//         .enter().append("path");
+//         forLatertwo = feature.attr("d", path).on("mouseover", function (data, index) {
+//             var current = d3.select(this).attr("class")
+//             //var z= d3.select("body")
+//             //console.log(z);
+//             console.log(index);
+//             console.log(String("." +  `${current}`));
+//             d3.select("body").selectAll("." + `${current}`).style("stroke", "white");
+//             d3.select("body").selectAll("." + `${current}arc`).style("stroke", "black");
 
-            (console.log(d3.select(this).attr("class")));
+//             (console.log(d3.select(this).attr("class")));
         
-        }). on("mouseout", function (data, index) {
-            var current = d3.select(this).attr("class")
-            //var z= d3.select("body")
-            //console.log(z);
-            console.log(String("." +  `${current}`));
-            d3.select("body").selectAll("." + `${current}`).style("stroke", "black");
-            d3.select("body").selectAll("." + `${current}arc`).style("stroke", "none");
+//         }). on("mouseout", function (data, index) {
+//             var current = d3.select(this).attr("class")
+//             //var z= d3.select("body")
+//             //console.log(z);
+//             console.log(String("." +  `${current}`));
+//             d3.select("body").selectAll("." + `${current}`).style("stroke", "black");
+//             d3.select("body").selectAll("." + `${current}arc`).style("stroke", "none");
 
 
-        }).on ("click", function(data, index) {
+//         }).on ("click", function(data, index) {
 
-            var cords = stateCords[index.properties.STATEFP]
-            var firstSplitSlash = cords.split("/");
-            console.log(firstSplitSlash);
-            setSelectedCountry(index.properties.STATEFP);
-            svg.selectAll("*").remove();
-            console.log(Number(firstSplitSlash[1].substring(0, firstSplitSlash[1].length - 2)));
-            map.flyTo([Number(firstSplitSlash[0].substring(1, firstSplitSlash[0].length)), Number(firstSplitSlash[1].substring(0, firstSplitSlash[1].length - 2))], 10);
+//             var cords = stateCords[index.properties.STATEFP]
+//             var firstSplitSlash = cords.split("/");
+//             console.log(firstSplitSlash);
+//             setSelectedCountry(index.properties.STATEFP);
+//             svg.selectAll("*").remove();
+//             console.log(Number(firstSplitSlash[1].substring(0, firstSplitSlash[1].length - 2)));
+//             map.flyTo([Number(firstSplitSlash[0].substring(1, firstSplitSlash[0].length)), Number(firstSplitSlash[1].substring(0, firstSplitSlash[1].length - 2))], 10);
 
 
-            console.log(index);
-            console.log(cords);
-        })
-            .attr("opacity", .5)
-            .attr("style", "pointer-events: auto;")
-            .attr('class', function(d) {
-                //console.log(d.properties.GEOID)
-                return `a${d.properties.GEOID}`
-            })
-            .style("stroke", "black")
-            .attr("fill", "white");
+//             console.log(index);
+//             console.log(cords);
+//         })
+//             .attr("opacity", .5)
+//             .attr("style", "pointer-events: auto;")
+//             .attr('class', function(d) {
+//                 //console.log(d.properties.GEOID)
+//                 return `a${d.properties.GEOID}`
+//             })
+//             .style("stroke", "black")
+//             .attr("fill", "white");
 
-        // code here
-            var j = d3.selectAll(".a1010")
-        var one = path.bounds(collection),
-        two = one[0],
-        three = one[1];
+//         // code here
+//             var j = d3.selectAll(".a1010")
+//         var one = path.bounds(collection),
+//         two = one[0],
+//         three = one[1];
         
-        forLater = collection
+//         forLater = collection
 
-        svg .attr("width", three[0] - two[0])
-        .attr("height", three[1] - two[1])
-        .style("left", two[0] + "px")
-        .style("top", two[1] + "px");
-        console.log("yo")
+//         svg .attr("width", three[0] - two[0])
+//         .attr("height", three[1] - two[1])
+//         .style("left", two[0] + "px")
+//         .style("top", two[1] + "px");
+//         console.log("yo")
 
-        g.attr("transform", "translate(" + (-two[0]) + "," + (-two[1]) + ")");
-      });
-    }, [selectedCountry])
-
-
-
-    //   map.on("click", function(e) {
-    //       map.panTo(new L.LatLng(e.latlng.lat,e.latlng.lng), 5);
-    //       console.log(e);
-    //   })
+//         g.attr("transform", "translate(" + (-two[0]) + "," + (-two[1]) + ")");
+//       });
+//     }, [selectedCountry])
 
 
 
+//     //   map.on("click", function(e) {
+//     //       map.panTo(new L.LatLng(e.latlng.lat,e.latlng.lng), 5);
+//     //       console.log(e);
+//     //   })
 
 
-    function reset() {
 
 
 
-        var one = path.bounds(forLater),
-        two = one[0],
-        three = one[1];
+//     function reset() {
+
+
+
+//         var one = path.bounds(forLater),
+//         two = one[0],
+//         three = one[1];
         
 
     
-        svg .attr("width", three[0] - two[0])
-        .attr("height", three[1] - two[1])
-        .style("left", two[0] + "px")
-        .style("top", two[1] + "px");
-        console.log("yo")
-        forLatertwo.attr("d", path).attr("opacity", .5).style("stroke", "black").attr("fill", "white");
+//         svg .attr("width", three[0] - two[0])
+//         .attr("height", three[1] - two[1])
+//         .style("left", two[0] + "px")
+//         .style("top", two[1] + "px");
+//         console.log("yo")
+//         forLatertwo.attr("d", path).attr("opacity", .5).style("stroke", "black").attr("fill", "white");
 
-        g.attr("transform", "translate(" + (-two[0]) + "," + (-two[1]) + ")");
+//         g.attr("transform", "translate(" + (-two[0]) + "," + (-two[1]) + ")");
 
 
 
-    } 
+//     } 
 
   
 
-    //map.on("zoomend", reset);
+//     //map.on("zoomend", reset);
 
-    return null
-}
+//     return null
+// }
 
 function StartingMap(props) {
     const wrapperRef = useRef()
@@ -194,15 +195,20 @@ function StartingMap(props) {
     return (
 
         <div >
-            <div className = "leaflet-container">
-            <button className = "sillyGoose" />
 
-                <MapContainer center={[37.8, -96.9]} zoom={4} scrollWheelZoom={false}>
+            <div className = "leaflet-container">
+
+                <MapContainer center={[37.8, -96.9]} zoom={4} scrollWheelZoom={false} className = "leaflet-container" zIndex = "0">
+                <D3Rendering zIndex = "1">
+
+                </D3Rendering>
+
                     <TileLayer
                         attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
                         url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
+                        zIndex = "0"
                     />
-                    <D3Rendering />
+
                     
                 </MapContainer>
             </div>
@@ -218,4 +224,3 @@ StartingMap.propTypes = {
 
 
 export default StartingMap
-

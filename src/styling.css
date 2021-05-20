@@ -28,9 +28,9 @@
 }
 .sillyGoose {
     position: absolute;
-    z-index: 3;
+    z-index: 755 !important;
     left: 200px !important;
-    top: opx !important;
+    top: 0px !important;
     height: 31px !important; 
     width: 33px !important; 
     cursor: pointer; 
