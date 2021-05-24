@@ -32,3 +32,7 @@ class EndDistricts:
     def __init__(self) -> None:
         self.districtPartitions = {}
 
+# Pseudocode
+# fun gerryMandered(currentVertex, verticesSeenSoFar, districtSet):
+# Deploy a kind of DFS? I can add this one and keep going or I can not add this one and need to stop?
+# Most thonk about this some more
