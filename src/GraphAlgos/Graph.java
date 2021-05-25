@@ -16,7 +16,7 @@ public class Graph {
     /**
      * A List of all vertices and their associated values.
      */
-     private List<Vertex> vertices;
+     public List<Vertex> vertices;
 
     /**
      * A list of all Edges and there associated values;

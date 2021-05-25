@@ -10,7 +10,7 @@ public class Split {
     public int currentPosition;
     ArrayList<SplitData> trackerAtIndex;
 
-    private class SplitData {
+    public class SplitData {
         public int clinton;
         public int trump;
         public int total;
