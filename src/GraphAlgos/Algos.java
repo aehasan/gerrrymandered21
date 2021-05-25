@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Queue;
 import java.util.Set;
-import java.util.
 public class Algos {
     public static void partitioner(Graph graph, Split currentSplit, Queue<Vertex> currentProcess, Map<> seenSoFar ) {
         //below is pseudocode for now:
@@ -17,8 +16,8 @@ public class Algos {
 
 
         Set<Set<Vertex>> powerset = Sets.powerSet(set);
-        seenSoFar.add(all appliclable vertices)
-        for (int i = 0; i < powersets.size; i++) {
+        currentSplit.add(adjacents);
+        for (int i = 0; i < powerset.size(); i++) {
 
         }
 
