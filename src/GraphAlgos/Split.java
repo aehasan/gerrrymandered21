@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.Map;
 
 public class Split {
-    int districtLimit;
-    List<ArrayList<Vertex>> districts;
-    Map<Vertex, Integer> seenSoFar;
-    int currentPosition;
+    public int districtLimit;
+    public List<ArrayList<Vertex>> districts;
+    public Map<Vertex, Integer> seenSoFar;
+    public int currentPosition;
+    ArrayList<SplitData> trackerAtIndex;
+
     private class SplitData {
         public int clinton;
         public int trump;
@@ -18,7 +20,19 @@ public class Split {
             total = 0;
         }
     }
-    ArrayList<SplitData> trackerAtIndex;
+    public Split(    int districtLimit,
+            List<ArrayList<Vertex>> districts,
+            Map<Vertex, Integer> seenSoFar,
+            int currentPosition,
+            ArrayList<SplitData> trackerAtIndex
+    ) {
+        this.districtLimit = districtLimit;
+        this.districts = districts;
+        this.seenSoFar = seenSoFar;
+        this.currentPosition = currentPosition;
+        this.trackerAtIndex = trackerAtIndex;
+
+    }
     public Split(int numberOfDistricts, int districtLimit) {
         this.districtLimit = districtLimit;
         districts = new ArrayList<ArrayList<Vertex>>();
@@ -33,25 +47,34 @@ public class Split {
      * population limits.
      * @param toAdd List of vertices to be added to current partition
      */
-    public void add(List<Vertex> toAdd) {
+    public void add(Vertex[]toAdd) {
         List<Vertex> current = districts.get(currentPosition);
-        for (int i = 0; i < toAdd.size(); i++) {
+        for (int i = 0; i < toAdd.length; i++) {
+            seenSoFar.put(toAdd[i], 0);
             if (trackerAtIndex.get(currentPosition).total < districtLimit)  {
-                trackerAtIndex.get(currentPosition).total += toAdd.get(i).trump + toAdd.get(i).clinton;
-                trackerAtIndex.get(currentPosition).trump += toAdd.get(i).trump;
-                trackerAtIndex.get(currentPosition).clinton += toAdd.get(i).clinton;
+                trackerAtIndex.get(currentPosition).total += toAdd[i].trump + toAdd[i].clinton;
+                trackerAtIndex.get(currentPosition).trump += toAdd[i].trump;
+                trackerAtIndex.get(currentPosition).clinton += toAdd[i].clinton;
 
-                current.add(toAdd.get(i));
+                current.add(toAdd[i]);
             } else {
                 currentPosition++;
                 current = districts.get(currentPosition);
-                trackerAtIndex.get(currentPosition).total += toAdd.get(i).trump + toAdd.get(i).clinton;
-                trackerAtIndex.get(currentPosition).trump += toAdd.get(i).trump;
-                trackerAtIndex.get(currentPosition).clinton += toAdd.get(i).clinton;
-                current.add(toAdd.get(i));
+                trackerAtIndex.get(currentPosition).total += toAdd[i].trump + toAdd[i].clinton;
+                trackerAtIndex.get(currentPosition).trump += toAdd[i].trump;
+                trackerAtIndex.get(currentPosition).clinton += toAdd[i].clinton;
+                current.add(toAdd[i]);
 
             }
         }
 
+    }
+
+    public boolean hasBeenSeen(Vertex f) {
+        if (seenSoFar.get(f) == null) {
+            return false;
+        }
+
+        return true;
     }
 }
