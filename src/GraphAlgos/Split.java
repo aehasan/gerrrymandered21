@@ -90,4 +90,8 @@ public class Split {
 
         return true;
     }
+
+    public String toString() {
+        return districts.toString();
+    }
 }

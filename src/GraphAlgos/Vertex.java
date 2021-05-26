@@ -17,7 +17,7 @@ public class Vertex {
     @Override
     public boolean equals(Object obj) {
         Vertex f = (Vertex) obj;
-        if (name == f.name) {
+        if (name.equals(f.name)) {
             return true;
         }
 

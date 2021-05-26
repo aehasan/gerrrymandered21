@@ -14,6 +14,7 @@ public class Main {
         Split split = new Split(3, 2);
         Queue queue = new ArrayBlockingQueue<Vertex>(10000);
         queue.add(graph.vertices.get(0));
-        Algos.partitioner(graph, split, queue);
+        Split j = Algos.partitioner(graph, split, queue);
+        System.out.println(j);
     }
 }
