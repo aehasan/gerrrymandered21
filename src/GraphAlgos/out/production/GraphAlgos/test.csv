@@ -1,0 +1,5 @@
+One, 1, 1, Three,Four,Five
+Two, 1, 1, One
+Three, 1, 0, One, Four
+Four, 0, 1, One, Three
+Five,0,1, One

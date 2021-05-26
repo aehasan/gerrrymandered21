@@ -13,6 +13,7 @@ public class Algos {
      * @return An optimal split
      */
     public static Split partitioner(Graph graph, Split currentSplit, Queue<Vertex> currentProcess) {
+        System.out.println("Lets get this show on the road");
         /**
          * There are TWO Base Cases
          * 1. We are out of queues to process however we do not have a fully functional Split

@@ -2,10 +2,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+
 /**
  * A barebones Graph class to accomplish the problem at hand. :). It gets the job done
  */
@@ -30,16 +28,25 @@ public class Graph {
              e.printStackTrace();
          }
          while (row != null) {
+             System.out.println(row);
              String[] data = row.split(",");
+             System.out.println(data.length);
+             System.out.println(Arrays.toString(data));
              String adjacents = data[3];
-             String[] isDone = adjacents.split(",");
              ArrayList<Vertex> myAdjacencyMatrix = new ArrayList<Vertex>();
-             for (int j = 0; j < isDone.length; j++) {
-                 myAdjacencyMatrix.add(new Vertex(isDone[j], 0, 0));
+             for (int j = 3; j < data.length; j++) {
+                 myAdjacencyMatrix.add(new Vertex(data[j].trim(), 0, 0));
              }
-             Vertex toAdd = new Vertex(data[0], Integer.parseInt(data[1]), Integer.parseInt(data[2]));
+             Vertex toAdd = new Vertex(data[0].trim(), Integer.parseInt(data[1].trim()), Integer.parseInt(data[2].trim()));
              vertices.add(toAdd);
              adjacencyStuff.put(toAdd, myAdjacencyMatrix);
+
+             try {
+                 row = csvReader.readLine();
+             } catch (IOException e) {
+                 e.printStackTrace();
+             }
+
          }
 
 
@@ -59,7 +66,7 @@ public class Graph {
     /**
      * An adjacency matrix for O(1) lookup.
      */
-    private Map<Vertex, ArrayList<Vertex>> adjacencyStuff;
+    public Map<Vertex, ArrayList<Vertex>> adjacencyStuff;
 
     /**
      *
