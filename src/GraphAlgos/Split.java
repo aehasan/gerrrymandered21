@@ -47,7 +47,10 @@ public class Split {
      * population limits.
      * @param toAdd List of vertices to be added to current partition
      */
-    public void add(Vertex[]toAdd) {
+    public void add(Graph graph, Vertex[]toAdd) {
+        for (int i = 0; i < toAdd.length; i++) {
+            toAdd[i] = graph.getRealVertex(toAdd[i].name);
+        }
         List<Vertex> current = districts.get(currentPosition);
         for (int i = 0; i < toAdd.length; i++) {
             seenSoFar.put(toAdd[i], 0);

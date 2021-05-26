@@ -67,7 +67,7 @@ public class Algos {
                 Vertex[] toCopy = currentProcess.toArray(new Vertex[10000]);
                 Queue<Vertex> newQueue = new ArrayBlockingQueue<Vertex>(10000);
                 Split forCopy = new Split(districtLim, currentDistricts, seen, currentPos, currentSplit.trackerAtIndex);
-                forCopy.add(finalPerm);
+                forCopy.add(graph, finalPerm);
                 if (forCopy.currentPosition == currentPos) {
                     for (int s = 0; s < toCopy.length; s++) {
                         if (toCopy[s] != null) {
