@@ -43,14 +43,15 @@ public class Algos {
          */
         List<Vertex> adjacents = new ArrayList<Vertex>();
         for (int i = 0; i < adjacentsOriginal.size(); i++) {
-            if (!currentSplit.hasBeenSeen(adjacentsOriginal.get(i)) && currentSplit.attemptedThisPartition.get(adjacentsOriginal.get(i)) == null ) {
+            if ((currentSplit.seenSoFar.get(adjacentsOriginal.get(i)) == null)
+                    && (currentSplit.attemptedThisPartition.get(adjacentsOriginal.get(i)) == null) && (currentSplit.seenThisPartition.get(adjacentsOriginal.get(i)) == null)) {
                 adjacents.add(adjacentsOriginal.get(i));
             }
         }
 
-        if (adjacents.isEmpty() && currentSplit.totalAddedTracker != graph.vertices.size()) {
+        if (adjacents.isEmpty() && currentSplit.totalAddedTracker != graph.vertices.size() && currentProcess.isEmpty()) {
             return null;
-        } else if (adjacents.isEmpty()) {
+        } else if (adjacents.isEmpty() && currentProcess.isEmpty()) {
             return currentSplit;
         }
         //        public int districtLimit;
@@ -88,13 +89,20 @@ public class Algos {
         newSplit.attemptedThisPartition.put(j, 0);
         //make all neighbours as has been seen for newSplit
         for (int i = 0; i < adjacents.size(); i++) {
-            newSplit.seenSoFar.put(adjacents.get(i), 0);
+            newSplit.seenThisPartition.put(adjacents.get(i), 0);
         }
 
         Vertex[] bruh = new Vertex[1];
         bruh[0] = j;
         newSplit.add(graph, bruh);
-
+        adjacents.clear();
+        for (int i = 0; i < adjacentsOriginal.size(); i++) {
+            if ((newSplit.seenSoFar.get(adjacentsOriginal.get(i)) == null)
+                    && (newSplit.attemptedThisPartition.get(adjacentsOriginal.get(i)) == null) && (newSplit.seenThisPartition.get(adjacentsOriginal.get(i)) == null)) {
+                adjacents.add(adjacentsOriginal.get(i));
+            }
+        }
+        copyCurrentProcess2.addAll(adjacents);
 
 
         Split withoutCurrent = partitioner(graph, originalSplit, copyCurrentProcess);

@@ -11,6 +11,7 @@ public class Split {
     public int currentPosition;
     ArrayList<SplitData> trackerAtIndex;
     Map<Vertex, Integer> attemptedThisPartition;
+    Map<Vertex, Integer> seenThisPartition;
     int totalAddedTracker;
 
     public class SplitData {
@@ -63,6 +64,7 @@ public class Split {
         }
         this.attemptedThisPartition = new HashMap<Vertex, Integer>(passedIn.attemptedThisPartition);
         totalAddedTracker = passedIn.totalAddedTracker;
+        seenThisPartition = new HashMap<Vertex, Integer>(passedIn.seenThisPartition);
 
     }
     public Split(int numberOfDistricts, int districtLimit) {
@@ -75,8 +77,8 @@ public class Split {
              districts.add(new ArrayList<Vertex>());
              trackerAtIndex.add(new SplitData());
          }
-
-         totalAddedTracker = 0;
+        this.totalAddedTracker = 0;
+        seenThisPartition = new HashMap<Vertex, Integer>();
 
     }
 
@@ -106,6 +108,7 @@ public class Split {
             } else {
                 currentPosition++;
                 attemptedThisPartition.clear();
+                seenThisPartition.clear();
                 if (currentPosition >= districts.size()) {
                     return;
                 }
