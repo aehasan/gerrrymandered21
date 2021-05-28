@@ -97,7 +97,11 @@ public class Split {
 
         List<Vertex> current = districts.get(currentPosition);
         for (int i = 0; i < toAdd.length; i++) {
-            seenSoFar.put(toAdd[i], 0);
+            if (seenSoFar.get(toAdd[i]) != null) {
+                continue;
+            }
+
+                seenSoFar.put(toAdd[i], 0);
             if (trackerAtIndex.get(currentPosition).total < districtLimit)  {
                 trackerAtIndex.get(currentPosition).total += toAdd[i].trump + toAdd[i].clinton;
                 trackerAtIndex.get(currentPosition).trump += toAdd[i].trump;
