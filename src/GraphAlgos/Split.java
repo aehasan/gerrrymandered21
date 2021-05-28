@@ -10,6 +10,8 @@ public class Split {
     public Map<Vertex, Integer> seenSoFar;
     public int currentPosition;
     ArrayList<SplitData> trackerAtIndex;
+    Map<Vertex, Integer> attemptedThisPartition;
+    int totalAddedTracker;
 
     public class SplitData {
         public int clinton;
@@ -20,18 +22,47 @@ public class Split {
             trump = 0;
             total = 0;
         }
+
+
     }
     public Split(    int districtLimit,
             List<ArrayList<Vertex>> districts,
             Map<Vertex, Integer> seenSoFar,
             int currentPosition,
-            ArrayList<SplitData> trackerAtIndex
+            ArrayList<SplitData> trackerAtIndex,
+                     Map<Vertex, Integer> attemptedThisPartition
     ) {
         this.districtLimit = districtLimit;
         this.districts = districts;
         this.seenSoFar = seenSoFar;
         this.currentPosition = currentPosition;
         this.trackerAtIndex = trackerAtIndex;
+        this.attemptedThisPartition = attemptedThisPartition;
+
+    }
+    public Split(Split passedIn) {
+        this.districtLimit = passedIn.districtLimit;
+        this.districts = new ArrayList<ArrayList<Vertex>>();
+        for (int i = 0; i < passedIn.districts.size(); i++) {
+            districts.add(new ArrayList<Vertex>());
+            for (int j =0; j < passedIn.districts.get(i).size(); j++) {
+                districts.get(i).add(passedIn.districts.get(i).get(j));
+            }
+        }
+
+        this.seenSoFar = new HashMap<Vertex, Integer>(passedIn.seenSoFar);
+        this.currentPosition = passedIn.currentPosition;
+        this.trackerAtIndex = new ArrayList<SplitData>();
+        for (int i = 0; i < passedIn.trackerAtIndex.size(); i++) {
+            SplitData toSet = new SplitData();
+            SplitData former = passedIn.trackerAtIndex.get(i);
+            toSet.clinton = former.clinton;
+            toSet.trump = former.trump;
+            toSet.total = former.total;
+            trackerAtIndex.add(toSet);
+        }
+        this.attemptedThisPartition = new HashMap<Vertex, Integer>(passedIn.attemptedThisPartition);
+        totalAddedTracker = passedIn.totalAddedTracker;
 
     }
     public Split(int numberOfDistricts, int districtLimit) {
@@ -39,10 +70,14 @@ public class Split {
         districts = new ArrayList<ArrayList<Vertex>>();
         trackerAtIndex = new ArrayList<SplitData>();
         seenSoFar = new HashMap<Vertex, Integer>();
+        attemptedThisPartition = new HashMap<Vertex, Integer>();
          for (int i = 0; i < numberOfDistricts; i++) {
              districts.add(new ArrayList<Vertex>());
              trackerAtIndex.add(new SplitData());
          }
+
+         totalAddedTracker = 0;
+
     }
 
     /**
@@ -67,8 +102,10 @@ public class Split {
                 trackerAtIndex.get(currentPosition).clinton += toAdd[i].clinton;
 
                 current.add(toAdd[i]);
+                totalAddedTracker++;
             } else {
                 currentPosition++;
+                attemptedThisPartition.clear();
                 if (currentPosition >= districts.size()) {
                     return;
                 }
@@ -77,6 +114,7 @@ public class Split {
                 trackerAtIndex.get(currentPosition).trump += toAdd[i].trump;
                 trackerAtIndex.get(currentPosition).clinton += toAdd[i].clinton;
                 current.add(toAdd[i]);
+                totalAddedTracker++;
 
             }
         }

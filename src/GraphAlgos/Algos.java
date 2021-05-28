@@ -19,14 +19,17 @@ public class Algos {
          * 1. We are out of queues to process however we do not have a fully functional Split
          * 2. We have a valid split and can return
          */
-        if (currentProcess.isEmpty() && currentSplit.seenSoFar.size() != graph.vertices.size()) {
+
+        /**
+         * Pop off the Vertex to be processed
+         */
+
+        if (currentProcess.isEmpty() && currentSplit.totalAddedTracker != graph.vertices.size()) {
             return null;
         } else if (currentProcess.isEmpty()) {
             return currentSplit;
         }
-        /**
-         * Pop off the Vertex to be processed
-         */
+
         Vertex j = currentProcess.peek();
         currentProcess.remove();
         System.out.println("Working on " + j);
@@ -34,52 +37,60 @@ public class Algos {
         /**
          * get all adjacent vertices
          */
-        List<Vertex> adjacents = graph.getAdjacentVertices(j);
-        /**
-         * Create a new set
-         */
-        Set<Vertex> set = new HashSet<Vertex>();
+        List<Vertex> adjacentsOriginal = graph.getAdjacentVertices(j);
         /**
          * copy over valid vertices to that set (they havent already been processed)
          */
-
-        for (int i = 0; i < adjacents.size(); i++) {
-            if (!currentSplit.hasBeenSeen(adjacents.get(i))) {
-                set.add(adjacents.get(i));
+        List<Vertex> adjacents = new ArrayList<Vertex>();
+        for (int i = 0; i < adjacentsOriginal.size(); i++) {
+            if (!currentSplit.hasBeenSeen(adjacentsOriginal.get(i)) && currentSplit.attemptedThisPartition.get(adjacentsOriginal.get(i)) == null ) {
+                adjacents.add(adjacentsOriginal.get(i));
             }
         }
 
-        if (set.isEmpty() && currentProcess.isEmpty() && currentSplit.seenSoFar.size() >= graph.vertices.size()) {
+        if (adjacents.isEmpty() && currentSplit.totalAddedTracker != graph.vertices.size()) {
+            return null;
+        } else if (adjacents.isEmpty()) {
             return currentSplit;
         }
-
         //        public int districtLimit;
 //        public List<ArrayList<Vertex>> districts;
 //        public Map<Vertex, Integer> seenSoFar;
 //        public int currentPosition;
 //        ArrayList<Split.SplitData> trackerAtIndex;
-        int copyDistrictLimit = currentSplit.districtLimit;
-        List<ArrayList<Vertex>> copyDistricts = new ArrayList<ArrayList<Vertex>>(currentSplit.districts);
-        Map<Vertex, Integer> copySeenSoFar = new HashMap<Vertex, Integer>(currentSplit.districtLimit);
-        int copyCurrentPosition = currentSplit.currentPosition;
-        ArrayList<Split.SplitData> copyTrackerAtIndex = new ArrayList<Split.SplitData>(currentSplit.trackerAtIndex);
-
-
-        int copyDistrictLimit2 = currentSplit.districtLimit;
-        List<ArrayList<Vertex>> copyDistricts2 = new ArrayList<ArrayList<Vertex>>(currentSplit.districts);
-        Map<Vertex, Integer> copySeenSoFar2 = new HashMap<Vertex, Integer>(currentSplit.districtLimit);
-        int copyCurrentPosition2 = currentSplit.currentPosition;
-        ArrayList<Split.SplitData> copyTrackerAtIndex2 = new ArrayList<Split.SplitData>(currentSplit.trackerAtIndex);
-
+//        int copyDistrictLimit = currentSplit.districtLimit;
+//        List<ArrayList<Vertex>> copyDistricts = new ArrayList<ArrayList<Vertex>>(currentSplit.districts);
+//        Map<Vertex, Integer> copySeenSoFar = new HashMap<Vertex, Integer>(currentSplit.districtLimit);
+//        int copyCurrentPosition = currentSplit.currentPosition;
+//        ArrayList<Split.SplitData> copyTrackerAtIndex = new ArrayList<Split.SplitData>(currentSplit.trackerAtIndex);
+//        Map<Vertex, Integer> copyAttemptedThisPartition = new HashMap<Vertex, Integer>(currentSplit.attemptedThisPartition);
+//
+//
+//        int copyDistrictLimit2 = currentSplit.districtLimit;
+//        List<ArrayList<Vertex>> copyDistricts2 = new ArrayList<ArrayList<Vertex>>(currentSplit.districts);
+//        Map<Vertex, Integer> copySeenSoFar2 = new HashMap<Vertex, Integer>(currentSplit.districtLimit);
+//        int copyCurrentPosition2 = currentSplit.currentPosition;
+//        ArrayList<Split.SplitData> copyTrackerAtIndex2 = new ArrayList<Split.SplitData>(currentSplit.trackerAtIndex);
+//        Map<Vertex, Integer> copyAttemptedThisPartition2 = new HashMap<Vertex, Integer>(currentSplit.attemptedThisPartition);
+//        copyAttemptedThisPartition.put(j, 0);
+//        copyAttemptedThisPartition2.put(j, 0);
         Queue<Vertex> copyCurrentProcess = new ArrayBlockingQueue<Vertex>(10000);
         Queue<Vertex> copyCurrentProcess2 = new ArrayBlockingQueue<Vertex>(10000);
-
+        
         Vertex[] queueToArray = currentProcess.toArray(new Vertex[currentProcess.size()]);
         copyCurrentProcess.addAll(currentProcess);
         copyCurrentProcess2.addAll(currentProcess);
         copyCurrentProcess2.addAll(adjacents);
-        Split originalSplit = new Split(copyDistrictLimit, copyDistricts, copySeenSoFar, copyCurrentPosition, copyTrackerAtIndex);
-        Split newSplit = new Split(copyDistrictLimit2, copyDistricts2, copySeenSoFar2, copyCurrentPosition2, copyTrackerAtIndex2);
+        Split originalSplit = new Split(currentSplit);
+        Split newSplit = new Split(currentSplit);
+        // make the current vertex partition as attempted
+        originalSplit.attemptedThisPartition.put(j, 0);
+        newSplit.attemptedThisPartition.put(j, 0);
+        //make all neighbours as has been seen for newSplit
+        for (int i = 0; i < adjacents.size(); i++) {
+            newSplit.seenSoFar.put(adjacents.get(i), 0);
+        }
+
         Vertex[] bruh = new Vertex[1];
         bruh[0] = j;
         newSplit.add(graph, bruh);

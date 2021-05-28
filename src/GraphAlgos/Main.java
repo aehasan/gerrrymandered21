@@ -11,7 +11,7 @@ public class Main {
         System.out.println(Arrays.toString(graph.vertices.toArray()));
         System.out.println(graph.adjacencyStuff.toString());
 
-        Split split = new Split(3, 2);
+        Split split = new Split(2, 4);
         Queue queue = new ArrayBlockingQueue<Vertex>(10000);
         queue.add(graph.vertices.get(0));
         Split j = Algos.partitioner(graph, split, queue);
