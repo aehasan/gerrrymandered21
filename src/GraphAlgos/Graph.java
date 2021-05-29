@@ -35,9 +35,9 @@ public class Graph {
              String adjacents = data[3];
              ArrayList<Vertex> myAdjacencyMatrix = new ArrayList<Vertex>();
              for (int j = 3; j < data.length; j++) {
-                 myAdjacencyMatrix.add(new Vertex(data[j].trim(), 0, 0));
+                 myAdjacencyMatrix.add(new Vertex(data[j].trim().replaceAll("\"", ""), 0, 0));
              }
-             Vertex toAdd = new Vertex(data[0].trim(), Integer.parseInt(data[1].trim()), Integer.parseInt(data[2].trim()));
+             Vertex toAdd = new Vertex(data[0].trim().replaceAll("\"", ""), Integer.parseInt(data[1].trim()), Integer.parseInt(data[2].trim()));
              vertices.add(toAdd);
              adjacencyStuff.put(toAdd, myAdjacencyMatrix);
 

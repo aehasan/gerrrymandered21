@@ -32,7 +32,7 @@ public class Algos {
 
         Vertex j = currentProcess.peek();
         currentProcess.remove();
-        System.out.println("Working on " + j);
+        //System.out.println("Working on " + j);
 
         /**
          * get all adjacent vertices
@@ -103,14 +103,16 @@ public class Algos {
             }
         }
         copyCurrentProcess2.addAll(adjacents);
-
+        System.out.println(j);
+        System.out.println(originalSplit);
+        System.out.println(newSplit);
 
         Split withoutCurrent = partitioner(graph, originalSplit, copyCurrentProcess);
         Split withCurrent = partitioner(graph, newSplit, copyCurrentProcess2);
         List<Split> f = new ArrayList<Split>();
         f.add(withoutCurrent);
         f.add(withCurrent);
-
+        //System.out.println(newSplit.districts);
         //calculate the valid power set
 
         return DistrictMax(f);
@@ -133,7 +135,7 @@ public class Algos {
                 currentCounter++;
             }
         }
-        if (currentCounter >= maxAt) {
+        if (currentCounter > maxAt) {
             maxAt = currentCounter;
             currentMax = temp;
 
