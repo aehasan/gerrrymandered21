@@ -35,6 +35,12 @@ public class Graph {
              String adjacents = data[3];
              ArrayList<Vertex> myAdjacencyMatrix = new ArrayList<Vertex>();
              for (int j = 3; j < data.length; j++) {
+                 if (data[j].trim().replaceAll("\"", "").equals("")) {
+                     continue;
+                 }
+                 if (data[j].trim().replaceAll("\"", "").equals("GALE")) {
+                     continue;
+                 }
                  myAdjacencyMatrix.add(new Vertex(data[j].trim().replaceAll("\"", ""), 0, 0));
              }
              Vertex toAdd = new Vertex(data[0].trim().replaceAll("\"", ""), Integer.parseInt(data[1].trim()), Integer.parseInt(data[2].trim()));

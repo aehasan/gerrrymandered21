@@ -63,7 +63,7 @@ public class Split {
             trackerAtIndex.add(toSet);
         }
         this.attemptedThisPartition = new HashMap<Vertex, Integer>(passedIn.attemptedThisPartition);
-        totalAddedTracker = passedIn.totalAddedTracker;
+        this.totalAddedTracker = passedIn.totalAddedTracker;
         seenThisPartition = new HashMap<Vertex, Integer>(passedIn.seenThisPartition);
 
     }
@@ -88,9 +88,9 @@ public class Split {
      * @param toAdd List of vertices to be added to current partition
      */
     public void add(Graph graph, Vertex[]toAdd) {
-        if (currentPosition >= districts.size()) {
-            return;
-        }
+//        if (currentPosition >= districts.size()) {
+//            return;
+//        }
         for (int i = 0; i < toAdd.length; i++) {
             toAdd[i] = graph.getRealVertex(toAdd[i].name);
         }
@@ -113,9 +113,7 @@ public class Split {
                 currentPosition++;
                 attemptedThisPartition.clear();
                 seenThisPartition.clear();
-                if (currentPosition >= districts.size()) {
-                    return;
-                }
+
                 current = districts.get(currentPosition);
                 trackerAtIndex.get(currentPosition).total += toAdd[i].trump + toAdd[i].clinton;
                 trackerAtIndex.get(currentPosition).trump += toAdd[i].trump;

@@ -25,14 +25,18 @@ public class Algos {
          */
 
         if (currentProcess.isEmpty() && currentSplit.totalAddedTracker != graph.vertices.size()) {
+            System.out.println(currentProcess);
+            System.out.println(currentSplit);
             return null;
         } else if (currentProcess.isEmpty()) {
+            System.out.println("hereeee");
+            System.out.println(currentSplit);
             return currentSplit;
         }
 
         Vertex j = currentProcess.peek();
         currentProcess.remove();
-        //System.out.println("Working on " + j);
+        System.out.println("Working on " + j);
 
         /**
          * get all adjacent vertices
@@ -49,11 +53,7 @@ public class Algos {
             }
         }
 
-        if (adjacents.isEmpty() && currentSplit.totalAddedTracker != graph.vertices.size() && currentProcess.isEmpty()) {
-            return null;
-        } else if (adjacents.isEmpty() && currentProcess.isEmpty()) {
-            return currentSplit;
-        }
+
         //        public int districtLimit;
 //        public List<ArrayList<Vertex>> districts;
 //        public Map<Vertex, Integer> seenSoFar;
@@ -102,10 +102,20 @@ public class Algos {
                 adjacents.add(adjacentsOriginal.get(i));
             }
         }
+        //copyCurrentProcess.addAll(adjacents);
+
         copyCurrentProcess2.addAll(adjacents);
-        System.out.println(j);
-        System.out.println(originalSplit);
-        System.out.println(newSplit);
+//        System.out.println(j);
+        //System.out.println(originalSplit);
+        //System.out.println(newSplit);
+        //System.out.println(copyCurrentProcess2);
+
+//        if (currentSplit.totalAddedTracker != graph.vertices.size() && currentProcess.isEmpty()) {
+//            System.out.println("this null");
+//            return null;
+//        } else if (adjacents.isEmpty() && currentProcess.isEmpty()) {
+//            return currentSplit;
+//        }
 
         Split withoutCurrent = partitioner(graph, originalSplit, copyCurrentProcess);
         Split withCurrent = partitioner(graph, newSplit, copyCurrentProcess2);
@@ -120,8 +130,9 @@ public class Algos {
     }
 
     public static Split DistrictMax(List<Split> passedIn) {
+        //System.out.println("its someting");
     Split currentMax = null;
-    int maxAt = 0;
+    int maxAt = -1;
     for (int i = 0; i < passedIn.size(); i++) {
         Split temp = passedIn.get(i);
         int currentCounter = 0;
@@ -143,5 +154,31 @@ public class Algos {
     }
 
     return currentMax;
+    }
+
+    public static boolean isConnected(Graph graph) {
+        Queue<Vertex> queue = new ArrayBlockingQueue(50000);
+        queue.add(graph.vertices.get(0));
+        Map<Vertex, Integer> visitTracker = new HashMap<Vertex, Integer>();
+        visitTracker.put(graph.vertices.get(0), 1);
+        while (!queue.isEmpty()) {
+            Vertex j = queue.peek();
+            queue.remove();
+            List<Vertex> adjacents = graph.getAdjacentVertices(j);
+
+            for (int i = 0; i < adjacents.size(); i++) {
+                if (visitTracker.get(adjacents.get(i)) == null) {
+                    visitTracker.put(adjacents.get(i), 1);
+                    queue.add(adjacents.get(i));
+                }
+            }
+
+        }
+        if (visitTracker.size() == graph.vertices.size()) {
+            return true;
+        }
+
+        return false;
+
     }
 }
