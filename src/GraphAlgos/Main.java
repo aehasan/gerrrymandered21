@@ -8,7 +8,7 @@ public class Main {
     public static void main(String args[]) {
 
 
-        Graph graph = new Graph("/Users/ahmed/Desktop/Projects/gerrymandered/src/GraphAlgos/500NodeTest.csv");
+        Graph graph = new Graph("/Users/ahmed/Desktop/Projects/gerrymandered/src/GraphAlgos/cleanedIllinois.csv");
 
         System.out.println(Arrays.toString(graph.vertices.toArray()));
         System.out.println(graph.adjacencyStuff.toString());
@@ -29,10 +29,11 @@ public class Main {
             e.printStackTrace();
         }
 
-        Split split = new Split(1, 100000);
+        Split split = new Split(2, 3000);
         Queue queue = new ArrayBlockingQueue<Vertex>(10000);
         queue.add(graph.vertices.get(0));
-        Split j = Algos.partitioner(graph, split, queue);
-        System.out.println(j);
+        //Split j = Algos.partitioner(graph, split, queue);
+        boolean f = Algos.isConnected(graph);
+        System.out.println(f);
     }
 }

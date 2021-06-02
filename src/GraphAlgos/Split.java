@@ -91,6 +91,9 @@ public class Split {
 //        if (currentPosition >= districts.size()) {
 //            return;
 //        }
+        if (currentPosition >= districts.size()) {
+            return;
+        }
         for (int i = 0; i < toAdd.length; i++) {
             toAdd[i] = graph.getRealVertex(toAdd[i].name);
         }
@@ -113,7 +116,9 @@ public class Split {
                 currentPosition++;
                 attemptedThisPartition.clear();
                 seenThisPartition.clear();
-
+                if (currentPosition >= districts.size()) {
+                    return;
+                }
                 current = districts.get(currentPosition);
                 trackerAtIndex.get(currentPosition).total += toAdd[i].trump + toAdd[i].clinton;
                 trackerAtIndex.get(currentPosition).trump += toAdd[i].trump;

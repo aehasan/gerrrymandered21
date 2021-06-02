@@ -25,18 +25,18 @@ public class Algos {
          */
 
         if (currentProcess.isEmpty() && currentSplit.totalAddedTracker != graph.vertices.size()) {
-            System.out.println(currentProcess);
-            System.out.println(currentSplit);
+            //System.out.println(currentProcess);
+            //System.out.println(currentSplit);
             return null;
         } else if (currentProcess.isEmpty()) {
-            System.out.println("hereeee");
-            System.out.println(currentSplit);
+            //System.out.println("hereeee");
+            //System.out.println(currentSplit);
             return currentSplit;
         }
 
         Vertex j = currentProcess.peek();
         currentProcess.remove();
-        System.out.println("Working on " + j);
+        //System.out.println("Working on " + j);
 
         /**
          * get all adjacent vertices
@@ -132,7 +132,7 @@ public class Algos {
     public static Split DistrictMax(List<Split> passedIn) {
         //System.out.println("its someting");
     Split currentMax = null;
-    int maxAt = -1;
+    int maxAt = 0;
     for (int i = 0; i < passedIn.size(); i++) {
         Split temp = passedIn.get(i);
         int currentCounter = 0;
@@ -146,7 +146,7 @@ public class Algos {
                 currentCounter++;
             }
         }
-        if (currentCounter > maxAt) {
+        if (currentCounter >= maxAt) {
             maxAt = currentCounter;
             currentMax = temp;
 
@@ -164,10 +164,17 @@ public class Algos {
         while (!queue.isEmpty()) {
             Vertex j = queue.peek();
             queue.remove();
+            System.out.println(j);
             List<Vertex> adjacents = graph.getAdjacentVertices(j);
-
+            if (j.equals(new Vertex("BELVIDERE 6", 0, 0))) {
+                System.out.println(adjacents);
+            }
             for (int i = 0; i < adjacents.size(); i++) {
-                if (visitTracker.get(adjacents.get(i)) == null) {
+
+                if (visitTracker.containsKey(adjacents.get(i)) == false) {
+                    if (j.equals(new Vertex("BELVIDERE 6", 0, 0))) {
+                        System.out.println("This one " + adjacents.get(i));
+                    }
                     visitTracker.put(adjacents.get(i), 1);
                     queue.add(adjacents.get(i));
                 }
@@ -177,6 +184,23 @@ public class Algos {
         if (visitTracker.size() == graph.vertices.size()) {
             return true;
         }
+        System.out.println(visitTracker.size());
+        List<Vertex> newVertex = new ArrayList<>();
+        for (int i = 0; i < graph.vertices.size(); i++) {
+            newVertex.add(new Vertex(graph.vertices.get(i).name, graph.vertices.get(i).clinton, graph.vertices.get(i).trump));
+        }
+        for (Map.Entry mapElement : visitTracker.entrySet()) {
+            Vertex key = (Vertex) mapElement.getKey();
+            for (int i = 0; i < newVertex.size(); i++) {
+                if (newVertex.get(i).equals(key)) {
+                    newVertex.remove(i);
+                    break;
+                }
+            }
+
+        }
+
+        System.out.println(newVertex);
 
         return false;
 
