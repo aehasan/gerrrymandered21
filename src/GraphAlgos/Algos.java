@@ -117,10 +117,15 @@ public class Algos {
 //            return currentSplit;
 //        }
 
-        Split withoutCurrent = partitioner(graph, originalSplit, copyCurrentProcess);
+        Split withoutCurrent = null;
+        if (adjacents.size() >= 1) {
+            withoutCurrent = partitioner(graph, originalSplit, copyCurrentProcess);
+        }
+
         Split withCurrent = partitioner(graph, newSplit, copyCurrentProcess2);
         List<Split> f = new ArrayList<Split>();
-        f.add(withoutCurrent);
+            f.add(withoutCurrent);
+
         f.add(withCurrent);
         //System.out.println(newSplit.districts);
         //calculate the valid power set
@@ -146,7 +151,7 @@ public class Algos {
                 currentCounter++;
             }
         }
-        if (currentCounter >= maxAt) {
+        if (currentCounter > maxAt) {
             maxAt = currentCounter;
             currentMax = temp;
 

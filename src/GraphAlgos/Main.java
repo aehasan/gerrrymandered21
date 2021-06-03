@@ -29,7 +29,7 @@ public class Main {
             e.printStackTrace();
         }
 
-        Split split = new Split(4, 24000);
+        Split split = new Split(4, 18000);
         Queue queue = new ArrayBlockingQueue<Vertex>(10000);
         queue.add(graph.vertices.get(0));
         Split j = Algos.partitioner(graph, split, queue);
