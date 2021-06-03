@@ -1,4 +1,3 @@
-import com.google.common.collect.Sets;
 
 import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -36,7 +35,7 @@ public class Algos {
 
         Vertex j = currentProcess.peek();
         currentProcess.remove();
-        System.out.println("Working on " + j);
+        //System.out.println("Working on " + j);
 
         /**
          * get all adjacent vertices
@@ -103,11 +102,17 @@ public class Algos {
             }
         }
         //copyCurrentProcess.addAll(adjacents);
-
+        List<Vertex> testingThing = new ArrayList<Vertex>();
+        for (int i = 0; i < adjacentsOriginal.size(); i++) {
+            if ((newSplit.seenSoFar.get(adjacentsOriginal.get(i)) == null)
+                    && (newSplit.attemptedThisPartition.get(adjacentsOriginal.get(i)) == null)) {
+                testingThing.add(adjacentsOriginal.get(i));
+            }
+        }
         copyCurrentProcess2.addAll(adjacents);
 //        System.out.println(j);
-        System.out.println(originalSplit);
-        System.out.println(newSplit);
+        //System.out.println(originalSplit);
+        //System.out.println(newSplit);
         //System.out.println(copyCurrentProcess2);
 
 //        if (currentSplit.totalAddedTracker != graph.vertices.size() && currentProcess.isEmpty()) {
@@ -118,7 +123,7 @@ public class Algos {
 //        }
 
         Split withoutCurrent = null;
-        if (adjacents.size() >= 1) {
+        if (testingThing.size() >= 6) {
             withoutCurrent = partitioner(graph, originalSplit, copyCurrentProcess);
         }
 

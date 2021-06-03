@@ -8,7 +8,7 @@ public class Main {
     public static void main(String args[]) {
 
 
-        Graph graph = new Graph("/Users/ahmed/Desktop/Projects/gerrymandered/src/GraphAlgos/testingOnSmaller.csv");
+        Graph graph = new Graph("/Users/ahmed/Desktop/Projects/gerrymandered/src/GraphAlgos/testingOnLarger.csv");
 
         System.out.println(Arrays.toString(graph.vertices.toArray()));
         System.out.println(graph.adjacencyStuff.toString());
@@ -29,7 +29,7 @@ public class Main {
             e.printStackTrace();
         }
 
-        Split split = new Split(4, 18000);
+        Split split = new Split(4, 180000);
         Queue queue = new ArrayBlockingQueue<Vertex>(10000);
         queue.add(graph.vertices.get(0));
         Split j = Algos.partitioner(graph, split, queue);
