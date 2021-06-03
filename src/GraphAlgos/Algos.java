@@ -123,7 +123,7 @@ public class Algos {
 //        }
 
         Split withoutCurrent = null;
-        if (testingThing.size() >= 6) {
+        if (testingThing.size() >= 10) {
             withoutCurrent = partitioner(graph, originalSplit, copyCurrentProcess);
         }
 

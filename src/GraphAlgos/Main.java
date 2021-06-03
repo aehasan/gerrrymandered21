@@ -1,6 +1,7 @@
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 
@@ -35,5 +36,14 @@ public class Main {
         Split j = Algos.partitioner(graph, split, queue);
         //boolean f = Algos.isConnected(graph);
         System.out.println(j);
+        List<Split.SplitData> f = j.trackerAtIndex;
+        int counter = 0;
+        for (int i = 0; i < f.size(); i++) {
+            System.out.println(f.get(i).clinton + "-" + f.get(i).trump );
+            if (f.get(i).clinton > f.get(i).trump) {
+                counter++;
+            }
+        }
+        System.out.println(counter);
     }
 }
