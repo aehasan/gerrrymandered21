@@ -36,7 +36,7 @@ public class Algos {
 
         Vertex j = currentProcess.peek();
         currentProcess.remove();
-        //System.out.println("Working on " + j);
+        System.out.println("Working on " + j);
 
         /**
          * get all adjacent vertices
@@ -106,8 +106,8 @@ public class Algos {
 
         copyCurrentProcess2.addAll(adjacents);
 //        System.out.println(j);
-        //System.out.println(originalSplit);
-        //System.out.println(newSplit);
+        System.out.println(originalSplit);
+        System.out.println(newSplit);
         //System.out.println(copyCurrentProcess2);
 
 //        if (currentSplit.totalAddedTracker != graph.vertices.size() && currentProcess.isEmpty()) {
@@ -172,9 +172,6 @@ public class Algos {
             for (int i = 0; i < adjacents.size(); i++) {
 
                 if (visitTracker.containsKey(adjacents.get(i)) == false) {
-                    if (j.equals(new Vertex("BELVIDERE 6", 0, 0))) {
-                        System.out.println("This one " + adjacents.get(i));
-                    }
                     visitTracker.put(adjacents.get(i), 1);
                     queue.add(adjacents.get(i));
                 }
