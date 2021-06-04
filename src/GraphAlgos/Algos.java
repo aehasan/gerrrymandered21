@@ -1,4 +1,5 @@
 
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 
@@ -11,7 +12,7 @@ public class Algos {
      * @param currentProcess The current vertices in the queue to be processed
      * @return An optimal split
      */
-    public static Split partitioner(Graph graph, Split currentSplit, Queue<Vertex> currentProcess) {
+    public static Split partitioner(Graph graph, Split currentSplit, Stack<Vertex> currentProcess) {
         //System.out.println("Lets get this show on the road");
         /**
          * There are TWO Base Cases
@@ -34,7 +35,7 @@ public class Algos {
         }
 
         Vertex j = currentProcess.peek();
-        currentProcess.remove();
+        currentProcess.pop();
         //System.out.println("Working on " + j);
 
         /**
@@ -74,8 +75,8 @@ public class Algos {
 //        Map<Vertex, Integer> copyAttemptedThisPartition2 = new HashMap<Vertex, Integer>(currentSplit.attemptedThisPartition);
 //        copyAttemptedThisPartition.put(j, 0);
 //        copyAttemptedThisPartition2.put(j, 0);
-        Queue<Vertex> copyCurrentProcess = new ArrayBlockingQueue<Vertex>(10000);
-        Queue<Vertex> copyCurrentProcess2 = new ArrayBlockingQueue<Vertex>(10000);
+        Stack<Vertex> copyCurrentProcess = new Stack<Vertex>();
+        Stack<Vertex> copyCurrentProcess2 = new Stack<Vertex>();
         
         Vertex[] queueToArray = currentProcess.toArray(new Vertex[currentProcess.size()]);
         copyCurrentProcess.addAll(currentProcess);
@@ -123,7 +124,7 @@ public class Algos {
 //        }
 
         Split withoutCurrent = null;
-        if (testingThing.size() >= 10) {
+        if (testingThing.size() >= 13) {
             withoutCurrent = partitioner(graph, originalSplit, copyCurrentProcess);
         }
 
@@ -167,13 +168,13 @@ public class Algos {
     }
 
     public static boolean isConnected(Graph graph) {
-        Queue<Vertex> queue = new ArrayBlockingQueue(50000);
+        Stack<Vertex> queue = new Stack();
         queue.add(graph.vertices.get(0));
         Map<Vertex, Integer> visitTracker = new HashMap<Vertex, Integer>();
         visitTracker.put(graph.vertices.get(0), 1);
         while (!queue.isEmpty()) {
             Vertex j = queue.peek();
-            queue.remove();
+            queue.pop();
             System.out.println(j);
             List<Vertex> adjacents = graph.getAdjacentVertices(j);
             if (j.equals(new Vertex("BELVIDERE 6", 0, 0))) {
@@ -211,5 +212,80 @@ public class Algos {
 
         return false;
 
+    }
+
+    public static Split iterativeGerrymander(Graph graph) {
+        //Map<Vertex, Integer> seenSoFar = new HashMap<Vertex, Integer>();
+        Stack<Vertex> stack = new Stack<Vertex>();
+        //ArrayList<Vertex> newStack = new ArrayList<Vertex>();
+        //Split split = new Split(18, 290000);
+        //ewStack.add(graph.vertices.get(3000));
+        int lastPicked = 0;
+        int lastPicked2 = 0;
+        int lastPicked3 = 0;
+        int totalMax = 0;
+        Split maxMax = null;
+        ArrayList<Split> maxSplit = new ArrayList<Split>();
+        for (int o = 0; o < graph.vertices.size(); o++) {
+            System.out.println(o);
+            Split split = new Split(18, 280000);
+            ArrayList<Vertex> newStack = new ArrayList<Vertex>();
+
+            Map<Vertex, Integer> seenSoFar = new HashMap<Vertex, Integer>();
+            newStack.add(graph.vertices.get(o));
+            seenSoFar.put(graph.vertices.get(o), 0);
+            while (!newStack.isEmpty()) {
+                Vertex f = null;
+                int clinton = split.trackerAtIndex.get(split.currentPosition).clinton;
+                int trump = split.trackerAtIndex.get(split.currentPosition).trump;
+                int total = split.trackerAtIndex.get(split.currentPosition).total;
+//                if (clinton - trump < -5000 || (290000 - total <= 20000 && clinton - trump < 5000)) {
+                    f = newStack.get(0);
+                    newStack.remove(0);
+                    lastPicked = 0;
+                    //lastPicked2 = 0;
+//
+//                } else {
+//                    f = newStack.get(newStack.size() - 1);
+//                    newStack.remove(newStack.size() - 1);
+                //}
+                    Vertex[] j = {f};
+                    int beforePosition = split.currentPosition;
+                    split.add(graph, j);
+
+
+                    List<Vertex> adjacents = graph.getAdjacentVertices(f);
+
+                    for (int i = 0; i < adjacents.size(); i++) {
+                        if (!seenSoFar.containsKey(adjacents.get(i))) {
+                            seenSoFar.put(adjacents.get(i), 0);
+                            newStack.add(adjacents.get(i));
+                        }
+                    }
+
+
+            }
+
+            List<Split.SplitData> current = split.trackerAtIndex;
+            int max = 0;
+            for (int z = 0; z < current.size(); z++) {
+                if (current.get(z).clinton > current.get(z).trump) {
+                    max++;
+                }
+            }
+
+            if (max > totalMax) {
+                totalMax = max;
+                maxMax = split;
+            }
+            //System.out.println(totalMax);
+            //System.out.println(maxMax);
+
+            //System.out.println(split);
+
+        }
+        System.out.println("t" + totalMax);
+
+        return maxMax;
     }
 }

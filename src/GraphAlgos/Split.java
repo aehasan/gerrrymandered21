@@ -117,6 +117,7 @@ public class Split {
                 attemptedThisPartition.clear();
                 seenThisPartition.clear();
                 if (currentPosition >= districts.size()) {
+                    currentPosition --;
                     return;
                 }
                 current = districts.get(currentPosition);

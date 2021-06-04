@@ -25,6 +25,6 @@ public class Vertex {
     }
     @Override
     public String toString() {
-        return "(" + name + ", " + clinton + ", " + trump + ")";
+        return "\'" + name + "\'";
     }
 }
