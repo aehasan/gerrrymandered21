@@ -1,5 +1,5 @@
 
-import java.lang.reflect.Array;
+import java.sql.Array;
 import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 
@@ -226,32 +226,60 @@ public class Algos {
         int totalMax = 0;
         Split maxMax = null;
         ArrayList<Split> maxSplit = new ArrayList<Split>();
-        for (int o = 0; o < graph.vertices.size(); o++) {
+        for (int o = 0; o < 1; o++) {
             System.out.println(o);
-            Split split = new Split(18, 280000);
+            Split split = new Split(18, 300000);
             ArrayList<Vertex> newStack = new ArrayList<Vertex>();
-
+            ArrayList<Vertex> magic = new ArrayList<Vertex>();
             Map<Vertex, Integer> seenSoFar = new HashMap<Vertex, Integer>();
-            newStack.add(graph.vertices.get(o));
-            seenSoFar.put(graph.vertices.get(o), 0);
-            while (!newStack.isEmpty()) {
+            newStack.add(graph.vertices.get(5000));
+            seenSoFar.put(graph.vertices.get(5000), 0);
+            int one = 0;
+            int two = 0;
+            int three = 0;
+            while ((split.seenSoFar.size() != graph.vertices.size())) {
                 Vertex f = null;
                 int clinton = split.trackerAtIndex.get(split.currentPosition).clinton;
                 int trump = split.trackerAtIndex.get(split.currentPosition).trump;
                 int total = split.trackerAtIndex.get(split.currentPosition).total;
-//                if (clinton - trump < -5000 || (290000 - total <= 20000 && clinton - trump < 5000)) {
-                    f = newStack.get(0);
-                    newStack.remove(0);
-                    lastPicked = 0;
-                    //lastPicked2 = 0;
+//                if (clinton > trump) {
+                   //f = newStack.get(0);
+                   //newStack.remove(0);
+//                    lastPicked = 0;
+//                    //lastPicked2 = 0;
+//                System.out.println(f);
+//                one = 0;
+//                two = 0;
+//                three = 0;
 //
 //                } else {
-//                    f = newStack.get(newStack.size() - 1);
-//                    newStack.remove(newStack.size() - 1);
-                //}
+                    f = newStack.get(newStack.size() - 1);
+                    newStack.remove(newStack.size() - 1);
+//                    if (one == 0) {
+//                        one = 1;
+//                    } else if(two == 0) {
+//                        two = 1;
+//                    } else if (three == 0) {
+//                        three = 1;
+//                    }
+//                }
                     Vertex[] j = {f};
                     int beforePosition = split.currentPosition;
                     split.add(graph, j);
+//                    if (beforePosition != split.currentPosition) {
+//
+//                        seenSoFar = new HashMap<Vertex, Integer>(split.seenSoFar);
+//
+//                        Vertex z = newStack.get(0);
+//                        f = z;
+//                        j[0] = f;
+//
+//                        split.add(graph, j);
+//
+//                        newStack = new ArrayList<Vertex>();
+//                        //newStack.remove(0);
+//                    }
+
 
 
                     List<Vertex> adjacents = graph.getAdjacentVertices(f);
@@ -278,7 +306,7 @@ public class Algos {
                 totalMax = max;
                 maxMax = split;
             }
-            //System.out.println(totalMax);
+            System.out.println(totalMax);
             //System.out.println(maxMax);
 
             //System.out.println(split);

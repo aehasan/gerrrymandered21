@@ -12,8 +12,8 @@ public class Main {
 
         Graph graph = new Graph("/Users/ahmed/Desktop/Projects/gerrymandered/src/GraphAlgos/cleanedIllinois.csv");
 
-        System.out.println(Arrays.toString(graph.vertices.toArray()));
-        System.out.println(graph.adjacencyStuff.toString());
+        //System.out.println(Arrays.toString(graph.vertices.toArray()));
+        //System.out.println(graph.adjacencyStuff.toString());
         FileWriter myWriter = null;
         try {
             myWriter = new FileWriter("./graphStructure.txt");
@@ -48,6 +48,6 @@ public class Main {
             }
         }
         System.out.println(counter);
-        System.out.println(j.districts.get(10));
+        System.out.println(j.districts);
     }
 }
